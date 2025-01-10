@@ -16,3 +16,31 @@ i = 3; // 문장
 //{name:'홍길동', age:20} // 표현식
 //{name:'홍길동', age:20}; // 문장
 const obj={name:'홍길동', age:20}; // 문장
+
+var v = 1;
+function func() {
+    console.log(v); // 전역스코프의 1을 사용
+}
+func();
+
+var v2 = 2;
+function func2(){
+    console.log(v2); // undefined
+    var v2 = 3;
+}
+func2();
+
+console.log(v); // 1. undefined
+function outer(){
+    console.log(v); // 2. undefined
+    function inner(){
+        console.log(v); // 3. undefined
+        var v = 'inner';
+        console.log(v); // 4. inner
+    }
+    var v = 'outer';
+    inner();
+    console.log(v); // 5. outer
+}
+outer();
+var v = 'global';
