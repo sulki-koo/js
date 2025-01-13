@@ -73,24 +73,31 @@
 // function greet(callback){console.log('greeting:');  callback();}
 // greet(sayHello);
 
-const person = {
-    firstName: 'hee',
-    lastName: 'lee',
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
-    },
-    set fullName(name) {
-        [this.firstName, this.lastName] = name.split(' ');
-    }
-};
-console.log(person);
+// const person = {
+//     firstName: 'hee',
+//     lastName: 'lee',
+//     get fullName() {
+//         return `${this.firstName} ${this.lastName}`;
+//     },
+//     set fullName(name) {
+//         [this.firstName, this.lastName] = name.split(' ');
+//     }
+// };
+// console.log(person);
 
-person.fullName = 'mang kim';
-console.log(person);
-console.log(person.fullName);
+// person.fullName = 'mang kim';
+// console.log(person);
+// console.log(person.fullName);
 
-// Object.freeze(person);
+// // Object.freeze(person);
+// // console.log(Object.getOwnPropertyDescriptors(person));
+// Object.preventExtensions(person);
 // console.log(Object.getOwnPropertyDescriptors(person));
-Object.preventExtensions(person);
-console.log(Object.getOwnPropertyDescriptors(person));
 
+var v = 1;
+function func(){
+	console.log(v); // undefined
+	var v = 2;
+}
+func();
+console.log(v); // 1
