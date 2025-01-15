@@ -23,7 +23,7 @@ console.log(s2.test(phone));
 // 5. 문자열에서 모든 URL을 추출하세요.
 // 결과 : ['https://google.com', 'http://example.com']
 const text1 = "Visit https://google.com and http://example.com!";
-console.log(text1.match(/https:\/\/\w+.\w+|http:\/\/\w+.\w+/ig));
+console.log(text1.match(/https?:\/\/\w+.\w+/ig));
 
 // 6. 주어진 문자열에서 숫자와 알파벳만 남기세요.
 // 결과 : 'Hello123World456'
@@ -33,8 +33,4 @@ console.log(str3.replace(/\W/ig, ''));
 // 7. 문자열에서 소수점 두 자리까지의 실수를 모두 추출하세요.
 // 결과 : ['12.50', '100.99']
 const text2 = "The prices are 12.50, 100.99, and 3.5 dollars.";
-console.log(text2.match(/\d+/g));
-
-
-
-
+console.log(text2.match(/\d+\.\d{2}/g));
