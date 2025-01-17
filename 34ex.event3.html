@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event3</title>
+    <script defer src="34ex.event3.js"></script>
+    <style>
+        body{ background-color: rgb(103, 189, 204);}
+    </style>
+</head>
+<body>
+    <form name="writeForm" action="#" method="get">
+        아이디 : &nbsp;&nbsp;&nbsp;&nbsp;<input name="uid" type="text"><br>
+        비밀번호 : &nbsp;<input name="upass" type="password"><br>
+        성별 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="gender" type="radio">남&nbsp;
+            <input name="gender" type="radio">여<br>
+        취미 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input name="game" type="checkbox">게임&nbsp;
+                <input name="youtube" type="checkbox">유튜브&nbsp;
+                <input name="reading" type="checkbox">독서&nbsp;
+                <input name="sleeping" type="checkbox">잠<br>
+        거주지 : &nbsp;&nbsp;&nbsp;&nbsp;<select name="reg" id="">
+                    <option value="seoul">서울</option>
+                    <option value="noseoul">안서울</option>
+                </select><br>
+        자기소개 : &nbsp;<textarea name="intro" rows="10" cols="40"></textarea><br>
+        <br>
+        <input type="button" id="submit" value="전송">&nbsp;
+        <input type="reset" value="초기화">
+    </form>
+</body>
+</html>
