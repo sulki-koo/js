@@ -27,28 +27,25 @@ const desc = document.querySelector('#desc'); // 내림차순 버튼
 let responseArr = null; // xhr객체의 응답몸체를 json배열로 변환하여 담음을 예정
 
 listPerson.addEventListener('click', e => { // 데이터가져오기버튼 클릭 이벤트
-    const xhr = new XMLHttpRequest(); // xhr객체 생성
-    xhr.open('GET', 'http://localhost:7777/persons'); // 요청 초기화(get)
-    xhr.send(); // 요청 전송
-    xhr.onload = () => { // 요청 성공시 콜백함수 저장할 프라퍼티
-        responseArr = JSON.parse(xhr.response); // xhr객체의 응답몸체 문자열을 json배열로 변환하여 담음
-        printList(responseArr); // printList 실행
-    };
+    axios.get('http://localhost:7777/persons')
+    .then(function(response) { 
+        responseArr = response.data;
+        printList(responseArr)
+    })
+    .catch(console.error);
 });
 
 getPerson.addEventListener('click', e => { // 조회버튼 클릭 이벤트
-    const xhr = new XMLHttpRequest(); // xhr객체 생성
     const sid = document.querySelector('#sid'); // sid dom요소 할당
     if (!sid.value) {  // sid 입력창에 입력된 값이 없으면 true
         alert('검색하실 아이디를 입력해 주시랑께요!'); // alert창
         sid.focus(); // sid 입력창으로 포커스 이동
         return;
     }
-    xhr.open('GET', `http://localhost:7777/persons/${sid.value}`); // 요청 초기화(get)
-    xhr.send(); // 요청 전송
-    xhr.onload = () => { // 요청 성공시 콜백함수 저장할 프라퍼티
+    axios.get(`http://localhost:7777/persons/${sid.value}`)
+    .then(function(response) { 
+        person = response.data;
         tbody.textContent = ''; // <tbody></tbody> 사이 값 초기화
-        const person = JSON.parse(xhr.response); // xhr객체의 응답몸체를 json배열로 변환하여 담음
         const tr = document.createElement('tr'); // tr 만듦
         // tr 사이에 들어갈 코드 작성
         tr.innerHTML = `
@@ -61,21 +58,17 @@ getPerson.addEventListener('click', e => { // 조회버튼 클릭 이벤트
             </td>
         `;
         tbody.appendChild(tr); // tbodty 하위에 tr 넣기
-    };
+    })
+    .catch(console.error);
 });
 
 registPerson.addEventListener('click', e => { // 등록버튼 클릭 이벤트
-    const xhr = new XMLHttpRequest(); // xhr객체 생성
-    xhr.open('POST', 'http://localhost:7777/persons'); // 요청 초기화(POST)
-    // 서버에게 보내는 데이터가 json임을 알려줌
-    xhr.setRequestHeader('content-type', 'application/json');
-    // json 문자열로 변환하여 객체로 요청 전송
-    xhr.send(JSON.stringify(
-        {"id": pid.value, "name": pname.value, "age": page.value}
-    ));
-    xhr.onload = () => { // 요청 성공시 printList 실행
-        printList(responseArr);
-    };
+    axios.post('http://localhost:7777/persons', {"id": pid.value, "name": pname.value, "age": page.value})
+    .then(function(response) { 
+        responseArr = response.data;
+        printList(responseArr)
+    })
+    .catch(console.error);
 });
 
 // asc 버튼 클릭시 printList 호출하여 오름차순 정렬 이벤트
@@ -92,7 +85,8 @@ desc.addEventListener('click', () => {
 const printList = (responseArr, selValue, sort) => {
     if (selValue) {
         // select버튼의 값이 숫자
-        if (typeof selValue === 'number') {
+        if (selValue == 'id' || selValue == 'age') {
+            console.log(typeof selValue);
             responseArr.sort((obj1, obj2) => {
                 if (sort==='ASC') {  // 오름차순
                     return obj1[selValue] - obj2[selValue];
@@ -134,25 +128,26 @@ const modifyPerson = pid => {
     if (!confirm) return; // 수정 안 할 경우 true
     const pname = document.querySelector('#name'+pid).value; // (id가 name+id)의 dom의 값을 pname에 할당
     const page = document.querySelector('#age'+pid).value; // (id가 age+id)의 dom의 값을 page에 할당
-    const xhr = new XMLHttpRequest(); // xhr객체 생성
-    xhr.open('PUT', `http://localhost:7777/persons/${pid}`); // 해당 id 수정 요청
-    xhr.setRequestHeader('content-type', 'application/json'); // json 데이터임을 서버에 알려줌
-    xhr.send(JSON.stringify({"id":pid, "name":pname, "age":page})); // 요청 전송
-    xhr.onload = () => { // 요청 성공시 printList 실행
-        printList(responseArr);
-    };    
+
+    axios.put(`http://localhost:7777/persons/${pid}`, {"id":pid, "name":pname, "age":page})
+    .then(function(response) { 
+        responseArr = response.data;
+        printList(responseArr)
+    })
+    .catch(console.error);
 }
 
 // 삭제 -> ${obj.id} === pid
 const deletePerson = pid => {
     const confirm = window.confirm('삭제하시겠습니까?'); // 확인 창
     if (!confirm) return; // 삭제 안 할 경우 true
-    const xhr = new XMLHttpRequest(); // xhr객체 생성
-    xhr.open('DELETE', `http://localhost:7777/persons/${pid}`); // 해당 id 삭제 요청
-    xhr.send(); // 요청 전송
-    xhr.onload = () => { // 요청 성공시 printList 실행
-        printList(responseArr);
-    };    
-}
+
+    axios.delete(`http://localhost:7777/persons/${pid}`)
+    .then(function(response) { 
+        responseArr = response.data;
+        printList(responseArr)
+    })
+    .catch(console.error);
+};
 
 listPerson.click(); // listPerson 클릭
